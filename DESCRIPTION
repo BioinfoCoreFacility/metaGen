@@ -8,6 +8,6 @@ Authors@R:
            email = "bioinformatyka@gmail.com",
            comment = c(ORCID = "0000-0001-8699-7742"))
 Description: This is the package for meragenomic calculations.
-License: licence
+License: GNU
 Encoding: UTF-8
 LazyData: true
