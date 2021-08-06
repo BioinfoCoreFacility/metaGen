@@ -1,0 +1,29 @@
+#' A cor.OTUvsGENES function
+#'
+#' This function allows you to calculate the correlation coeficient with p-value between two tabular data
+#' @OTUs is the dataframe with OTUs abundance
+#' @genes is the dataframe with genes abundance
+#' @r is the correlation coeficient theshold
+#' @p is the p-value treshold
+#' @type "pearson" or "spearman" method
+#'
+cor.OTUvsGENES <- function(OTUs, genes, r=0.9, p = 0.05, type = "pearson"){
+  OTUs <- OTUs[,sort(colnames(OTUs))]
+  genes <- genes[,sort(colnames(genes))]
+  if (identical(colnames(genes), colnames(OTUs))) {
+    OTU.genes <- rbind(OTUs, genes)
+    
+    corel <- rcorr(t(as.matrix(OTU.genes)), type = type)
+    cor1 <- melt(corel$r)
+    cor1$p <- melt(corel$P)$value
+    
+    colnames(cor1) <- c("OTUs", "genes", "r", "p")
+    cor1 <- cor1[cor1$OTUs %in% rownames(OTUs),]
+    cor1 <- cor1[cor1$genes %in% rownames(genes),]
+    
+    corel <- cor1[cor1$r > 0.9 & cor1$p < 0.05,]
+  }else{
+    message("columns of both tables are not identical!!!!")
+  }
+  return(corel)
+}
