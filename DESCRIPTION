@@ -1,0 +1,13 @@
+Package: metaGen from prodakt
+Title: metagenomic functions
+Version: 0.0.0.1978
+Authors@R: 
+    person(given = "Jan Pawel",
+           family = "Jastrzebski",
+           role = c("aut", "cre"),
+           email = "bioinformatyka@gmail.com",
+           comment = c(ORCID = "0000-0001-8699-7742"))
+Description: This is the package for meragenomic calculations.
+License: licence
+Encoding: UTF-8
+LazyData: true
