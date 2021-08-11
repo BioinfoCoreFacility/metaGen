@@ -8,6 +8,9 @@
 #' @type "pearson" or "spearman" method
 #' cor.OTUvsGENES(OTUs, genes)
 cor.OTUvsGENES <- function(OTUs, genes, r=0.9, p = 0.05, type = "pearson"){
+  require("Hmisc")
+  require("reshape2")
+  require("qvalue")
   OTUs <- OTUs[,sort(colnames(OTUs))]
   genes <- genes[,sort(colnames(genes))]
   if (identical(colnames(genes), colnames(OTUs))) {
@@ -17,7 +20,11 @@ cor.OTUvsGENES <- function(OTUs, genes, r=0.9, p = 0.05, type = "pearson"){
     cor1 <- melt(corel$r)
     cor1$p <- melt(corel$P)$value
     
-    colnames(cor1) <- c("OTUs", "genes", "r", "p")
+    qval <- qvalue(cor1$p)
+    cor1$q <- qval$qvalues
+    cor1$FDR <- qval$lfdr
+    
+    colnames(cor1) <- c("OTUs", "genes", "r", "p", "q", "FDR")
     cor1 <- cor1[cor1$OTUs %in% rownames(OTUs),]
     cor1 <- cor1[cor1$genes %in% rownames(genes),]
     
@@ -25,5 +32,4 @@ cor.OTUvsGENES <- function(OTUs, genes, r=0.9, p = 0.05, type = "pearson"){
   }else{
     message("columns of both tables are not identical!!!!")
   }
-  return(corel)
-}
+  
