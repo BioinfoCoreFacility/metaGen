@@ -28,7 +28,7 @@ cor.OTUvsGENES <- function(OTUs, genes, r=0.9, p = 0.05, type = "pearson"){
     cor1 <- cor1[cor1$OTUs %in% rownames(OTUs),]
     cor1 <- cor1[cor1$genes %in% rownames(genes),]
     
-    corel <- cor1[cor1$r > 0.9 & cor1$p < 0.05,]
+    corel <- cor1[cor1$r > r & cor1$p < p,]
   }else{
     message("columns of both tables are not identical!!!!")
   }
